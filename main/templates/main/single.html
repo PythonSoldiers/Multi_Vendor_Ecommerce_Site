@@ -1,0 +1,304 @@
+{% extends 'main/base.html' %}
+{% block main_head %}
+
+<style type="text/css">
+	
+/*****************globals*************/
+body {
+ background-color: #e2eaef;
+  overflow-x: hidden; }
+
+.tab-pane {
+	width: 450px;
+	height: auto;
+}
+
+li img {
+  border-left: solid 1px #e2eaef;
+  border-right: solid 1px #e2eaef;
+}
+
+.preview {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+  @media screen and (max-width: 996px) {
+    .preview {
+      margin-bottom: 20px; } 
+    .tab-pane {
+    	width: 100%
+    }
+  }
+
+.preview-pic {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+.preview-thumbnail.nav-tabs {
+  border: none;
+  margin-top: 15px; }
+  .preview-thumbnail.nav-tabs li {
+    width: 13%;
+    margin-right: 2.5%; }
+    .preview-thumbnail.nav-tabs li img {
+      max-width: 100%;
+      display: block; }
+    .preview-thumbnail.nav-tabs li a {
+      padding: 0;
+      margin: 0; }
+    .preview-thumbnail.nav-tabs li:last-of-type {
+      margin-right: 0; }
+
+.tab-content {
+  overflow: hidden; }
+  .tab-content img {
+    width: 100%;
+    -webkit-animation-name: opacity;
+            animation-name: opacity;
+    -webkit-animation-duration: .3s;
+            animation-duration: .3s; }
+
+.card {
+  margin-top: 10px;
+  background: #fff;
+  padding: 2em;
+  line-height: 1.5em; }
+
+@media screen and (min-width: 997px) {
+  .wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; } }
+
+.details {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+
+.colors {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+.product-title, .price, .sizes, .colors {
+  text-transform: UPPERCASE;
+  font-weight: normal; }
+
+.checked, .price span {
+  color: #be2714; }
+
+.product-title, .rating, .product-description, .price, .vote, .sizes {
+  margin-bottom: 15px; }
+
+.product-title {
+  margin-top: 0; }
+
+.size {
+  margin-right: 10px; }
+  .size:first-of-type {
+    margin-left: 40px; }
+
+
+@-webkit-keyframes opacity {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(3);
+            transform: scale(3); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(3);
+            transform: scale(3); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+#gallery li {
+display: inline;
+margin-right: 3px;
+}
+#gallery #main-img {
+background: url(https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg) no-repeat 0 0;
+
+}
+
+#more {display: none;}
+</style>
+<script type="text/javascript">
+    
+$(document).ready(function() {
+    // Image swap on hover
+    $("#gallery li img").hover(function(){
+        $('#main-img').attr('src',$(this).attr('src').replace('thumb/', ''));
+    });
+    // Image preload
+    var imgSwap = [];
+     $("#gallery li img").each(function(){
+        imgUrl = this.src.replace('thumb/', '');
+        imgSwap.push(imgUrl);
+    });
+    $(imgSwap).preload();
+});
+$.fn.preload = function() {
+    this.each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+ 
+
+</script>
+<script type="text/javascript">
+	function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Read more";
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Read less";
+    moreText.style.display = "inline";
+  }
+}
+</script>
+{% endblock main_head %}
+{% block main_body %}
+{% load static %}
+	<div class="container-fluid mt-3">
+		<div class="card mt-0">
+			<div class="container-fluid">
+				<div class="wrapper row">
+					<div class="preview col-md-4" style="">
+						<div id="gallery">
+							<div class="preview-pic tab-content">
+							  <div class="tab-pane active" style="height: 400px; width: auto; display: flex;"><img src="{{product.image1.url}}"  alt="" id="main-img" style="max-height: 100%; max-width:100%; width: auto; margin: auto" /></div>
+							
+							</div>
+							<ul class="preview-thumbnail nav nav-tabs">
+							  <li class="active"><img src="{{product.image1.url}}" /></li>
+							  {% if product.image2 %}
+							  <li><img src="{{product.image2.url}}" /></li>
+							  {% endif %}
+							  {% if product.image3 %}
+							  <li><img src="{{product.image3.url}}" /></li>
+							  {% endif %}
+							  {% if product.image4 %}
+							  <li><img src="{{product.image4.url}}" /></li>
+							  {% endif %}
+							  {% if product.image5 %}
+							  <li><img src="{{product.image5.url}}" /></li>
+							  {% endif %}
+							</ul>	
+						</div>					
+					</div>
+					<div class="details col-md-5" style="border-left: solid 1px #e2eaef; border-right: solid 1px #e2eaef;">
+						
+						<h3 class="product-title">{{product.product_name}}</h3>
+
+						<p class="product-description">{{product.desc}}</p>
+						<h4 class="price"><p><span class="item_price"><span><i class="fa fa-inr"
+											aria-hidden="true"></i></span>{{product.price}}</span> <del><i class="fa fa-inr"
+											aria-hidden="true"></i>{{product.price_not}}</del></p></h4>
+            {% if sizes %}
+						<h5 class="sizes">sizes:
+              {% for me in sizes %}
+							<span class="size" data-toggle="tooltip" title="small">{{me.size}}</span>
+							{% endfor %}
+						</h5>
+						<!-- <h5 class="colors">colors:
+							<span class="color orange"></span>
+							<span class="color green"></span>
+							<span class="color blue"></span>
+						</h5> -->
+						<div class="action">
+              <div>
+                    <a p_id="{{product.product_id}}" class="btn btn-primary oprbtn" id="ord{{product.product_id}}">Order Now</a>
+                    <div id="ord{{product.product_id}}sizesof" style="display: none;">
+                          <h6>Select any Size for Order Now</h6>
+                          {% for me in sizes %}
+                          <form method="GET" style="display: inline;" action="/order_now">
+                            <input type="text" name="prod_id" value="{{product.product_id}}" style="display: none;">
+                            <input type="size" name="prod_size" value="{{me.size}}" style="display: none;">
+                            <button type="submit" class="btn btn-danger pt-1 pb-1 pr-2 pl-2">{{me.size}}</button>
+                          </form> 
+                          {% endfor %}
+                        </div>
+                        <a p_id="{{product.product_id}}" class="btn btn-primary oprbtn"  style="padding: 5px 10px 5px 5px;" id="atc{{product.product_id}}">Add to Cart</a>
+                        <div id="atc{{product.product_id}}sizesof" style="display: none;">
+                          <h6>Select any Size for Add To Cart</h6>
+                          {% for me in sizes %}
+                          <a prod_id="{{product.product_id}}" class="btn btn-danger pt-1 pb-1 pr-2 pl-2 add_to_cart">{{me.size}}</a>
+                          {% endfor %}
+                        </div>
+                  </div>
+            </div>  
+            {% else %}
+            <div style="display:inline">
+                <form method="GET" style="display: inline;" action="/order_now">
+                            <input type="text" name="prod_id" value="{{product.product_id}}" style="display: none;">
+                            <button type="submit" class="btn btn-danger pt-1 pb-1 pr-2 pl-2">Order Now</button>
+                          </form> 
+                  <a prod_id="{{product.product_id}}" class="btn btn-danger pt-1 pb-1 pr-2 pl-2 add_to_cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></a>
+              </div>
+            {% endif %}				
+					</div>
+          <div class="col-md-3">
+            <div class="float-right w-100">
+              <h5 class="product-title float-right">Reviews*</h2>
+              {% if request.user.is_authenticated %}
+                <form method="post">{% csrf_token %}
+                  <div class="input-group mb-3 ">
+                    <input type="text" class="form-control form-control-sm" placeholder="Enter Your Review" aria-label="Enter Your Review" aria-describedby="button-addon2" name="review">
+                    <div class="input-group-append">
+                      <button type="submit" style="border: none;" class="btn-secondary form-control-sm" type="button" id="button-addon2"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </form>
+              {% endif %}
+              <div style="height: 400px; overflow-y: scroll;">
+                {% for review in product_review %}
+                  <div class="bd-callout bd-callout-warning mb-1">
+                    <h6 class="m-0 p-0" id="conveying-meaning-to-assistive-technologies">{{review.user.get_full_name}}</h6>
+                    <small class="pl-1 text-muted">{{review.review}}</small>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+  </div>
+<script type="text/javascript">
+    $('.oprbtn').click(function () {
+      var p_id = $(this).attr("p_id");
+      document.getElementById('ord'+p_id).style.display = 'none';
+      document.getElementById('atc'+p_id).style.display = 'none';
+      document.getElementById(this.id+'sizesof').style.display = 'block';
+    });
+  </script>
+{% endblock main_body %}
